@@ -1,0 +1,9 @@
+1523890527039	Delete element
+1523905833241	Extract method 'crearArticulos'
+1523905868586	Extract method 'visualizararticulos'
+1524042644494	Extract method 'vender'
+1524045645431	Extract method 'menu'
+1524045861022	Extract method 'menu'
+1524047446973	Extract method 'menu'
+1524048457464	Extract method 'comprar'
+1524051954626	Extract method 'totalVentas'

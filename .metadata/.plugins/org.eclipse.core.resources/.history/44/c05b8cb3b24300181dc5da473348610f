@@ -1,0 +1,22 @@
+
+public class Principal {
+
+	public static void main(String[] args) {
+		Pila unaPila=new Pila();
+		
+		
+		String cadena="";
+		String palabrainvertida="";
+		
+	
+	cadena=Leer.pedirCadena("introduzca cadena para darle la vuelta ");
+			
+			for(int i=cadena.length()-1;i>=0; i--){
+				palabrainvertida += cadena.charAt(i);
+		}
+			
+			System.out.println(palabrainvertida);
+		
+		
+	}
+}

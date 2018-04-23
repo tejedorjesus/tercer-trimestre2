@@ -1,0 +1,20 @@
+
+public class Principal {
+
+	public static void main(String[] args) {
+		Pila unaPila=new Pila();
+		
+		
+		Integer elemento=0;
+		
+		elemento=Leer.pedirEntero("dime un numero para añadir a la pila");
+		
+		unaPila.apilar(elemento);
+		elemento=Leer.pedirEntero("dime un numero para añadir a la pila");
+		unaPila.apilar(elemento);
+		System.out.println("co");
+		unaPila.visualizar();
+
+		
+}
+}

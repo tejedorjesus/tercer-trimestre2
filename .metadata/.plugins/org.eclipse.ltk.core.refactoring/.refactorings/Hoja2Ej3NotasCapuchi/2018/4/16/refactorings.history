@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;Lee&apos; to &apos;Leer&apos;&#x0D;&#x0A;- Original project: &apos;Hoja2Ej3NotasCapuchi&apos;&#x0D;&#x0A;- Original element: &apos;Lee&apos;&#x0D;&#x0A;- Renamed element: &apos;Leer&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Lee&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{Lee.java[Lee" matchStrategy="1" name="Leer" qualified="false" references="true" similarDeclarations="false" stamp="1524382900293" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,107 @@
+import java.util.*;
+import java.util.Iterator;
+
+
+
+public class main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+
+
+		Scanner sc = new Scanner(System.in);
+
+		//TreeMap<Integer,List> MapaAlumnos = new TreeMap<Integer,List>();
+		TreeMap<Integer,ArrayList<Integer>> MapaAlumnos = new TreeMap<Integer, ArrayList<Integer>>();
+
+		String[] nombres = { "Rafa", "Jesus", "Raul", "Diego", "Cristian", "Pepe", "Luis", "Jose Antonio", "Eric",
+		"German" };
+		String[] apellidos = { "Garcia", "Perez", "Brey", "Losantos", "Cifuentes", "Casado", "Bañez", "Franco",
+				"Blanco", "Jimenez" };
+
+		int[] Nota =new int[50];
+		for (int i = 0; i < Nota.length; i++) {
+			Nota[i]= (int) (Math.random() * (100 - 0) + 0);
+
+		}
+		Alumno[] unAlumno = null;
+		unAlumno = new Alumno[50];
+		for (int i = 0;i< 50; i++) {
+
+
+			Random rand = new Random();
+			unAlumno[i] = new Alumno(nombres[rand.nextInt(nombres.length)], apellidos[rand.nextInt(apellidos.length)],
+					rand.nextInt(100));
+			//arrayAlumnos.add(unAlumno);//
+
+
+		}
+
+		String codigo="";
+		float precio=0;
+		int opcion=0;
+
+		opcion=Leer.pedirEntero("Elija una opción:   \n1.- Crear y visualizar automaticamente la base de datos de los alumnos\n2.- Mostrar los alumnos ordenados por nota "
+				+ " \n0.- Salir");
+
+		while(opcion!=0){
+
+
+
+			switch (opcion) {
+			case 1:
+				for (int i = 0;i< 50; i++) {
+					System.out.println(unAlumno[i]);
+
+				}//generando el mapa
+				int indice;
+				Integer NotaMapa;
+				ArrayList<Integer> listaIndicesAlumnosDelNodo;
+				for (indice = 0; indice < unAlumno.length; indice++) {
+					NotaMapa=unAlumno[indice].getNota();
+					if (MapaAlumnos.containsKey(NotaMapa)==false){
+						listaIndicesAlumnosDelNodo= new ArrayList<Integer>();
+						listaIndicesAlumnosDelNodo.add(indice);
+						MapaAlumnos.put(NotaMapa,listaIndicesAlumnosDelNodo);
+					}else{
+						MapaAlumnos.get(NotaMapa).add(indice);
+					}
+				}
+
+
+				break;
+			case  2:
+
+				Iterator<Integer> itr =  MapaAlumnos.keySet().iterator();//los alumnos saldran ordenados por la key(nota)
+				while(itr.hasNext()){
+					NotaMapa=(int)itr.next();
+					listaIndicesAlumnosDelNodo=MapaAlumnos.get(NotaMapa);
+					Leer.mostrarEnPantalla("\nNota : " + NotaMapa );// se muestra la nota 
+					for (Integer posiciones : listaIndicesAlumnosDelNodo) {
+						Leer.mostrarEnPantalla("Posicion del Alumno en el nodo : "+(posiciones+1) + " , ");
+						System.out.println(unAlumno[posiciones]);
+
+					}
+				}
+				break;
+
+			default:
+
+				break;
+
+			}//end switch
+
+			opcion=Leer.pedirEntero("Elija una opción: \n1.- Crear y visualizar automaticamente la base de datos de los alumnos\n2.- Mostrar los alumnos ordenados por nota "
+					+ " \n0.- Salir");
+
+
+
+
+		}//end while
+
+
+
+
+	}//end main
+}

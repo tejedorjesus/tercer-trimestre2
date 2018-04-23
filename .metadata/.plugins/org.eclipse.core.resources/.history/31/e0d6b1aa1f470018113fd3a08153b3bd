@@ -1,0 +1,241 @@
+import java.util.Map;
+
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.*;
+
+
+public class GestionTienda {
+
+	public static void main(String[] args) {
+
+		Integer ventaAcumulada = 0;
+		Articulo articulos[] = new Articulo[5];
+		// mapArticulosDescripcion
+		TreeMap<String, Integer> mapArticulosDescripcion = new TreeMap<String, Integer>();
+		// mapArticulosStock
+		TreeMap<Integer,ArrayList<Integer>> mapArticulosStock = new TreeMap<Integer, ArrayList<Integer>>();
+		List<Integer> listaIndicesArticuloDelNodo=null;
+
+
+		crearArticulo(articulos);
+
+		int opcion = menu();// opcion de menu
+		while (opcion != 0) {// menu
+			switch (opcion) {// acciones menu
+			case 1:
+
+				// ventaAcumulada=ventaCliente(articulos,ventaAcumulada);
+				ventaCliente(articulos);
+
+				break;
+			case 2:
+
+				bajoStock(articulos);
+				comprar(articulos);
+
+				break;
+			case 3:
+
+				bajoStock(articulos);
+
+				break;
+			case 4:
+
+				listarAcumuladoVentas(articulos);
+				break;
+
+			case 5:
+
+				listarArticulos(articulos);
+				break;
+			case 6:
+
+				ordenarArticulosDescripcion(articulos,mapArticulosDescripcion);
+				break;
+			case 7:
+
+				ordenarArticulosStock(articulos, mapArticulosStock);
+				break;
+
+
+
+			default:
+				break;
+			}
+			opcion = menu();
+		}
+
+		ordenarArticulosDescripcion(articulos,mapArticulosDescripcion);
+		ordenarArticulosStock(articulos, mapArticulosStock);
+
+	}// main
+
+
+
+	public static void crearArticulo(Articulo[] articulos) {
+
+		String[] descripcion = { "Peine", "Lapiz", "Libro", "Tenedor", "Tijeras" };
+
+		for (int i = 0; i < articulos.length; i++) {
+			articulos[i] = new Articulo(descripcion[i], (int) (Math.random() * 50 + 0),
+					(int) (Math.random() * 300 + 51), ((int) (Math.random() * (20))));
+		}
+	}// crearArticulo
+
+
+	public static void ventaCliente(Articulo[] articulos) {
+
+		Integer numeroArticulo;
+		Integer ventaUnidadesCliente;
+		Integer i;
+
+		do {
+			Leer.mostrarEnPantalla(
+					"�Escribe el numero del articulo quieres vender?:\n 1.Peine \n 2.Lapiz  \n 3.Libro  \n 4.Tenedor  \n 5.Tijeras");
+			numeroArticulo = Leer.pedirEntero("Elija el numero de articulo:");
+		} while (numeroArticulo < 1 || numeroArticulo > 5);
+
+		Leer.mostrarEnPantalla(articulos[numeroArticulo - 1].muestraArticulo());
+		ventaUnidadesCliente = Leer.pedirEntero("�Cuantas unidades quiere vender?");
+
+		System.out.println("Unidades vendidas : " + articulos[numeroArticulo - 1].vender(ventaUnidadesCliente));
+
+	}
+
+	private static void comprar(Articulo[] articulos) {
+
+		Integer numeroArticulo;
+		Integer aumentarStock;
+
+		do {
+			Leer.mostrarEnPantalla("�Escribe el numero del articulo quieres reaprovisionar?:\n 1.Peine \n 2.Lapiz  \n 3.Libro  \n 4.Tenedor  \n 5.Tijeras");
+			numeroArticulo = Leer.pedirEntero("Elija el numero de articulo:");
+		} while (numeroArticulo < 1 || numeroArticulo > 5);
+
+		aumentarStock = Leer.pedirEntero("�Cuantas unidades quieres aumentar el stock?");
+		articulos[numeroArticulo - 1].comprar(aumentarStock);
+		Leer.mostrarEnPantalla(articulos[numeroArticulo - 1].muestraArticulo());
+
+	}
+
+	private static void bajoStock(Articulo[] articulos) {
+		Integer i;
+		Leer.mostrarEnPantalla("------***ARTICULOS BAJO STOCK MINIMO***-------");
+		for (i = 0; i < articulos.length; i++) {
+			if (articulos[i].bajoStock() == true) {
+				Leer.mostrarEnPantalla(articulos[i].muestraArticulo());
+			}
+		}
+
+	}// bajoStock
+
+	public static void listarAcumuladoVentas(Articulo [] articulos){
+
+		int i;
+		Integer totalTienda;
+		totalTienda=0;	
+		for(i=0;i<articulos.length;i++){
+			Leer.mostrarEnPantalla("Articulo: " + articulos[i].getDescripcion() + "-->" + articulos[i].getAcumVentas());
+			totalTienda=totalTienda+articulos[i].getAcumVentas();
+		}
+
+		Leer.mostrarEnPantalla("Total de ventas acumuladas en la tienda: " + totalTienda);
+
+	}
+
+	public static void listarArticulos(Articulo [] articulos){
+		int i;
+
+		for (i = 0; i < articulos.length; i++) {
+
+			Leer.mostrarEnPantalla(articulos[i].muestraArticulo());
+		}
+	}//listarArticulos
+
+	public static int menu() {
+		int opcion;
+		Leer.mostrarEnPantalla("1.- Venta cliente");
+		Leer.mostrarEnPantalla("2.- Comprar al proveedor");
+		Leer.mostrarEnPantalla("3.- Listado de articulos bajo stock minimo");
+		Leer.mostrarEnPantalla("4.- Listado de ventas acumuladas por articulo");
+		Leer.mostrarEnPantalla("5.- Listado articulos");
+		Leer.mostrarEnPantalla("6.- Listado de articulos  ordenados por descripción");
+		Leer.mostrarEnPantalla("7.- Listado de articulos ordenados por stock");
+		Leer.mostrarEnPantalla("0.- Salir");
+		opcion = Leer.pedirEntero("Que opcion deseas?");
+		return opcion;
+	}//menu()
+
+	public static void ordenarArticulosDescripcion(Articulo [] articulos, TreeMap<String, Integer> mapArticulosDescripcion){
+		int indice;
+		Integer posicion; // Tiene que ser objeto no puede ser dato primitivo.
+
+		// 1ڠGuardamos en el mapa los nodos.
+		for (indice=0;indice<articulos.length;indice++){	
+			mapArticulosDescripcion.put(articulos[indice].getDescripcion(), indice);
+		}
+
+		//2ڠRecorremos el conjunto generado por keySet que contiene las claves en orden de a-z.
+		for (String descripcion: mapArticulosDescripcion.keySet() ) {
+			//3º Obtenemos la posicion asociada a cada descripcion.
+			posicion=mapArticulosDescripcion.get(descripcion);
+			//4º Leer.mostrarEnPantalla tiene que recibir un string como parametro.
+			Leer.mostrarEnPantalla(articulos[posicion].muestraArticulo());
+		}
+	}//ordenarArticulosDecripcion
+
+	public static void ordenarArticulosStock (Articulo [] articulos, TreeMap<Integer,ArrayList<Integer>> mapArticulosStock){
+		int indice;
+		Integer stockActual;
+		ArrayList<Integer> listaIndicesArticuloDelNodo;
+		//1ڠTendremos que recorrer todos los stock (claves) existentes 
+		for(indice=0;indice<articulos.length;indice++){
+			stockActual=articulos[indice].getStockActual();
+
+			// 2ʠSi NO esta el stock en el MAPA >>> CREAMOS un NODO con el Stock y una lista de posiciones del vector articulos;
+			if (mapArticulosStock.containsKey(stockActual)== false){ 
+				listaIndicesArticuloDelNodo = new ArrayList<Integer>();// creamos la lista vacia
+				listaIndicesArticuloDelNodo.add(indice); // Anadimos la posicion del vector de Articulos.
+				mapArticulosStock.put(stockActual, listaIndicesArticuloDelNodo); // Insertamos el nodo entero en el Mapa
+			}else{
+				//3ڠSi el stock ya existe, anadimos el articulo a la lista asociada a ese stock.
+				mapArticulosStock.get(stockActual).add(indice);
+			}
+
+		}//for
+
+		//Utilizamos un Iterador para que nos muestre el contenido del TreeMap
+
+		Iterator<Integer> itr = mapArticulosStock.keySet().iterator();
+
+		while (itr.hasNext()){
+			stockActual=(int)itr.next();
+			listaIndicesArticuloDelNodo=mapArticulosStock.get(stockActual);
+			Leer.mostrarEnPantalla("\n\n" + stockActual + ": "); // Mostramos un stock 
+			for(Integer posiciones: listaIndicesArticuloDelNodo){
+				//Leer.mostrarEnPantalla(posiciones + ", "); // Mostramos una por una las posiciones que contiene cada stock.
+				Leer.mostrarEnPantalla (articulos[posiciones].muestraArticulo());
+			}
+		}
+		Leer.mostrarEnPantalla ("\n*************************************************\n");
+		Iterator<Map.Entry <Integer,ArrayList<Integer> > > it2 = mapArticulosStock.entrySet().iterator();
+		Map.Entry <Integer,ArrayList<Integer>> nodo;
+		while (it2.hasNext()){
+			nodo=it2.next();
+			stockActual=nodo.getKey();
+			listaIndicesArticuloDelNodo=nodo.getValue();
+			Leer.mostrarEnPantalla("\n\n" + stockActual + ": "); // Mostramos un stock 
+			for(Integer posiciones: listaIndicesArticuloDelNodo){
+				//Leer.mostrarEnPantalla(posiciones + ", "); // Mostramos una por una las posiciones que contiene cada stock.
+				Leer.mostrarEnPantalla (articulos[posiciones].muestraArticulo());
+			}	
+
+		}
+
+
+	}//ordenarArticulosStock
+
+
+
+}// class

@@ -1,0 +1,129 @@
+import java.util.*;
+
+public class main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+
+		
+		Scanner sc = new Scanner(System.in);
+		ArrayList arrayAlumnos = new ArrayList();
+		TreeMap<Integer,List> listaProductos = new TreeMap<Integer,List>();
+		
+		String[] nombres = { "Rafa", "Jesus", "Raul", "Diego", "Cristian", "Pepe", "Luis", "Jose Antonio", "Eric",
+		"German" };
+		String[] apellidos = { "Garcia", "Perez", "Brey", "Losantos", "Cifuentes", "Casado", "Bañez", "Franco",
+				"Blanco", "Jimenez" };
+
+          int[] Nota =new int[50];
+          for (int i = 0; i < Nota.length; i++) {
+        	  Nota[i]= (int) (Math.random() * (100 - 0) + 0);
+			
+		}
+          Alumno[] unAlumno = null;
+      	  unAlumno = new Alumno[50];
+		for (int i = 0;i< 50; i++) {
+		
+
+			Random rand = new Random();
+			unAlumno[i] = new Alumno(nombres[rand.nextInt(nombres.length)], apellidos[rand.nextInt(apellidos.length)],
+					rand.nextInt(100));
+			//arrayAlumnos.add(unAlumno);//
+
+
+		}
+
+		String codigo="";
+		float precio=0;
+		int opcion=0;
+
+		opcion=Leer.pedirEntero("elija una opcion entre las 5 \n1.- crear automaticamente la base de datos,\n2.- Modificar precio "
+				+ "\n3.- Mostrar a los alumnos y sus notas \n4.- Eliminar producto \n5.- Añadir un producto \n6 Buscar alumno por nota \n0.- Salir");
+
+		while(opcion!=0){
+			
+
+
+			switch (opcion) {
+			case 1:
+				for (int i = 0;i< 50; i++) {
+					System.out.println(unAlumno[i]);
+				}
+				
+			
+				break;
+			case 2:
+				String codigoCambio="";
+				float precioCambio=0;
+				codigoCambio=Leer.pedirCadena("introduzca el codigo del producto que desea modificar el precio");
+				if(listaProductos.containsKey(codigoCambio)){
+					precioCambio=Leer.pedirFloat("Introduzca el nuevo precio");
+				/*	listaProductos.put(codigoCambio,precioCambio);*/
+
+				}else{
+					Leer.mostrarEnPantalla("el codigo introducido no existe, no se puede modificar algo que no existe");
+				}
+				break;
+
+			case 3:
+				Leer.mostrarEnPantalla("A continuacion apareceran todos los productos, Codigo y Precio");
+			//	Iterator iterador = listaProductos.entrySet().iterator();
+				Iterator<Map.Entry<Integer, List>> iterador = listaProductos.entrySet().iterator();
+				Map.Entry producto;
+				while (iterador.hasNext()) {
+					//producto = (Map.Entry) iterador.next();
+					producto = iterador.next(); //Si se usase tambien la otra linea comentada.
+					System.out.println( producto.getValue());
+					
+				} 
+			
+				
+				break;
+
+
+
+			case 4:
+				codigo=Leer.pedirCadena("introduce el codigo del articulo que quieres eliminar de la lista");
+				
+				if (listaProductos.containsKey(codigo)) {
+					listaProductos.remove(codigo);
+				} else {
+					System.out.println("No hay ningun producto con ese código.");  
+				}       
+
+				break;
+
+
+
+			/*case 5:
+				codigo=Leer.pedirCadena("introduzca el codigo del articulo que quieres añadir a la lista");
+				if(listaProductos.containsKey(codigo)){
+					Leer.mostrarEnPantalla("ese articulo ya pertenece a la lista");
+				}else{
+				precio=Leer.pedirFloat("Introduzca el precio del nuevo articulo ");
+				listaProductos.put(unAlumno.getNota(),arrayAlumnos);
+				}
+				break;*/
+			case 6:
+				//System.out.println(listaProductos.size(unAlumno.getNota(),arrayAlumnos));
+				System.out.println(listaProductos.values());
+				System.out.println(listaProductos.size());
+				break;
+
+			default:
+				break;
+			}//end switch
+
+				opcion=Leer.pedirEntero("elija una opcion entre las 5 \n1.- Introducir producto,\n2.- Modificar precio "
+						+ "\n3.- Mostrar todos los producto \n4.- Eliminar producto \n5.- Añadir un producto \n0.- Salir");
+				
+				
+
+			}//end while
+
+
+	
+
+	}//end main
+}
